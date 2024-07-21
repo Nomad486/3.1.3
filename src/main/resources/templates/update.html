@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Update User</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input[type="text"], select, input[type="number"] {
+      width: calc(100% - 22px);
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    input[type="submit"] {
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #2980b9;
+    }
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Update User</h1>
+
+<form th:method="POST" th:action="@{'/admin/updateauser?id=' + ${user.id}}" th:object="${user}">
+  <label for="username">Enter New Username:</label>
+  <input type="text" th:field="*{username}" id="username"/>
+  <div class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+
+  <label for="surname">Enter New Surname:</label>
+  <input type="text" th:field="*{surname}" id="surname"/>
+  <div class="error" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></div>
+
+  <label for="age">Enter New Age:</label>
+  <input type="number" th:field="*{age}" id="age"/>
+  <div class="error" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+
+  <label for="password">Enter New Password:</label>
+  <input type="text" th:field="*{password}" id="password"/>
+  <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+
+  <label for="role">Select Role:</label>
+  <select id="role" name="role">
+    <option value="ROLE_USER">User Role</option>
+    <option value="ROLE_ADMIN">Admin Role</option>
+  </select>
+
+  <input type="submit" value="Update"/>
+</form>
+
+</body>
+</html>
