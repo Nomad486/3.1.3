@@ -13,9 +13,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,7 +25,6 @@ public class UserServiceImp implements UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
 
-    @Autowired
     public UserServiceImp(UserRepository userRepository,
                           RoleService roleService,
                           BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -69,9 +66,9 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public User readUserById(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.orElse(new User());
+    public User readUserById(Integer id) {
+        User user = userRepository.findById(id);
+        return (user != null) ? user : new User();
     }
 
     @Override
@@ -81,7 +78,7 @@ public class UserServiceImp implements UserService {
 
     @Transactional
     @Override
-    public void updateUser(Long id, User user) {
+    public void updateUser(Integer id, User user) {
         try {
             User user0 = readUserById(id);
             user0.setUsername(user.getUsername());
@@ -95,8 +92,14 @@ public class UserServiceImp implements UserService {
 
     @Transactional
     @Override
-    public void deleteUser(Long id) {
+    public void deleteUser(Integer id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean isUserRole(String username, String roleName) {
+        User user = userRepository.findByUsername(username);
+        return user.getRoles().stream().anyMatch(role -> role.getName().equals(roleName));
     }
 
 }

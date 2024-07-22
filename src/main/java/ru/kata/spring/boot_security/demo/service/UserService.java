@@ -17,9 +17,11 @@ public interface UserService extends UserDetailsService {
     Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles);
 
     void createUser(User user);
-    User readUserById(Long id);
+    User readUserById(Integer id);
     List<User> readAllUsers();
-    void updateUser(Long id, User user);
-    void deleteUser(Long id);
+    void updateUser(Integer id, User user);
+    void deleteUser(Integer id);
+
+    boolean isUserRole(String username, String roleName);
 
 }
